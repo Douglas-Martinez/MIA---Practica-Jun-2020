@@ -3,7 +3,7 @@
 * CARNE: 201603168             *
 ********************************/
 
-CREATE DATABASE prueba;
+CREATE DATABASE practica;
 
 /*
 ** 1. Generar el script que crea cada una de las tablas que conforman la base de datos propuesta por el Comité Olímpico.
@@ -192,8 +192,7 @@ ALTER TABLE evento DROP COLUMN fecha;
 ALTER TABLE evento DROP COLUMN hora;
 
 --2. Crear columna llamada "fecha_hora"
-ALTER TABLE evento ADD COLUMN fecha_hora TIMESTAMP NOT NULL;
---ALTER TABLE evento ADD COLUMN fecha_hora TIMESTAMP NOT NULL;
+ALTER TABLE evento ADD COLUMN fecha_hora TIMESTAMP;
 
 
 
@@ -202,8 +201,8 @@ ALTER TABLE evento ADD COLUMN fecha_hora TIMESTAMP NOT NULL;
 ** 3. Todos los eventos de las olimpiadas deben ser programados del 24 de julio de 2020 a partir de las 9:00:00 hasta el 09 de agosto de 2020 hasta las 20:00:00
 */
 ALTER TABLE evento ADD CONSTRAINT fecha_hora_check CHECK (
-    fecha_hora > '2020-07-24 09:00:00'
-    AND fecha_hora < '2020-08-09 20:00:00'
+    fecha_hora >= '2020-07-24 09:00:00'
+    AND fecha_hora <= '2020-08-09 20:00:00'
 );
 
 
@@ -227,7 +226,7 @@ ALTER TABLE evento
 
 --c. Crear una llave foránea en la columna Ubicación de la tabla Evento y referenciarla a la columna código de la tabla Sede
 ALTER TABLE evento 
-    ADD CONSTRAINT evento_ubicacion_fkey FOREIGN KEY ( ubicacion ) REFERENCES sede (codigo ON DELETE CASCADE ON UPDATE CASCADE)
+    ADD CONSTRAINT evento_ubicacion_fkey FOREIGN KEY ( ubicacion ) REFERENCES sede (codigo) ON DELETE CASCADE ON UPDATE CASCADE
 ;
 
 
@@ -404,7 +403,7 @@ CREATE TABLE disciplina_atleta (
 ** 9. En la tabla “Costo_Evento” se determinó que la columna “tarifa” no debe ser entero sino un decimal con 2 cifras de precisión
 */
 ALTER TABLE costo_evento
-    ALTER COLUMN tarifa TYPE FLOAT(2) USING tarifa::float
+    ALTER COLUMN tarifa TYPE FLOAT(2 )USING tarifa::float
 ;
 
 
